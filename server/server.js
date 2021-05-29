@@ -24,12 +24,12 @@ app.use(express.json());
 app.use('/api/users', userRouter);
 
 //For heroku deployment - this block of codes will only run in production env
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../client/build/index.html'));
-    });
-}
+// if (process.env.NODE_ENV === 'production') {
+//     app.use(express.static('client/build'));
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, '../client/build/index.html'));
+//     });
+// }
 
 //error handling middleware
 app.use((err, req, res, next) => {
