@@ -62,3 +62,43 @@ exports.createProject = async (req, res, next) => {
         }
     });
 }
+
+exports.updateProject = async (req, res, next) => {
+    const { name, description, projectId } = req.body
+    const userId = req.user._id;
+    if (!name) {
+        res.status(401).send({ message: 'Name field is required' });
+        return;
+    }
+
+    if (!projectId) {
+        res.status(401).send({ message: 'projetId field is required' });
+        return;
+    }
+
+    if (!description) {
+        res.status(401).send({ message: 'Description field is required' });
+        return;
+    }
+
+    const updatedProject = await Project.findByIdAndUpdate({ _id: projectId }, { name: name, description: description })
+    if (updatedProject) {
+        res.json({ message: "Project updated successfully", data: updatedProject })
+    }
+    return res.status(401).send({ message: 'Cannot find project with specified Id' });
+}
+
+exports.deleteProject = async (req, res, next) => {
+    const { projectId } = req.body
+
+    if (!projectId) {
+        return res.status(401).send({ message: 'ProjectId field is required' });
+    }
+
+    Project.findByIdAndDelete({ _id: projectId }, function (err, result) {
+        if (err) {
+            return res.status(500).send({ 'message': err.message })
+        }
+        res.status(200).send({ message: 'Successfully deleted project', data: result });
+    })
+}

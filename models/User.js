@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
                 ref: 'Project',
             },
             name: String,
-            descripion: String,
+            description: String,
             fileLink: String
         }]
     },

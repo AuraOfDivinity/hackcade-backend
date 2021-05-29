@@ -1,12 +1,12 @@
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
-const { generateToken, isAuth } = require('../utils/util')
+const { generateToken } = require('../utils/util')
 
-exports.register = async(req, res, next) => {
+exports.register = async (req, res, next) => {
     const { name, email, password } = req.body;
 
     // Creating a new user
-    const user =  new User({
+    const user = new User({
         name,
         email,
         password: bcrypt.hashSync(password, 8)
@@ -21,18 +21,17 @@ exports.register = async(req, res, next) => {
     })
 }
 
-exports.signin = async(req, res, next) => {
-    const { email }  = req.body;
+exports.signin = async (req, res, next) => {
+    const { email } = req.body;
 
     const user = await User.findOne({ email })
-    if(user){
+    if (user) {
         // Compare passwords and return token if they match
-        if(bcrypt.compareSync(req.body.password, user.password)) {
+        if (bcrypt.compareSync(req.body.password, user.password)) {
             res.send({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                isAdmin: user.isAdmin,
                 token: generateToken(user)
             });
 
@@ -40,5 +39,22 @@ exports.signin = async(req, res, next) => {
         }
     }
 
-    res.status(401).send({ message: 'Invalid email or password'});
+    res.status(401).send({ message: 'Invalid email or password' });
+}
+
+exports.getUserDetails = async (req, res, next) => {
+    const { userId } = req.body;
+
+    const user = await User.findOne({ _id: userId })
+
+    if (user) {
+        res.send({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            projects: user.projects
+        });
+    }
+
+    res.status(401).send({ message: 'Invalid user ID provided' });
 }
