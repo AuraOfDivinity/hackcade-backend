@@ -16,10 +16,13 @@ const userSchema = new mongoose.Schema(
             required: 'Password is required'
         },
         projects: [{
-            project: {
+            projectId: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Project',
-            }
+            },
+            name: String,
+            descripion: String,
+            fileLink: String
         }]
     },
     {

@@ -1,15 +1,16 @@
-require('dotenv').config({ path: __dirname + '/.env' });
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const express = require('express');
-const path = require('path');
 const mongoose = require('mongoose');
 const userRouter = require('../routes/User');
 const projectRouter = require('../routes/Project')
 const app = express();
 const multer = require('multer');
-const projectRouter = require('../routes/Project');
 const memoryStorage = multer.memoryStorage();
 
+
 //db connect 
+console.log(process.env.MONGODB_URI)
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/mern_ecommerce', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
