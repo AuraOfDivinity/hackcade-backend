@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema(
             type: String, 
             required: 'Password is required'
         }, 
-        attachments: [{ description: String, fileLink: String, s3_key: String }]
+        projects: [{ description: String, fileLink: String, s3_key: String }]
     }, 
     {
         timestamps: true
